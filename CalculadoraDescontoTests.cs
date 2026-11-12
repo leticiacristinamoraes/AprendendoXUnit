@@ -40,4 +40,25 @@ public class CalculadoraDescontoTests
         Assert.Throws<ArgumentException>(() =>
             calculadora.Calcular(preco, percentual));
     }
+
+    [Theory]
+[InlineData("100", "10", "90.00")]
+[InlineData("99.99", "15", "84.99")]
+[InlineData("1.01", "50", "0.51")]
+public void Calcular_DeveArredondarCorretamente(
+    string preco,
+    string percentual,
+    string esperado)
+{
+    var calculadora = new CalculadoraDesconto();
+
+    var resultado = calculadora.Calcular(
+        decimal.Parse(preco, System.Globalization.CultureInfo.InvariantCulture),
+        decimal.Parse(percentual, System.Globalization.CultureInfo.InvariantCulture));
+
+    Assert.Equal(
+        decimal.Parse(esperado, System.Globalization.CultureInfo.InvariantCulture),
+        resultado);
+}
+
 }
